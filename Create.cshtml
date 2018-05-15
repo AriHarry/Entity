@@ -1,0 +1,261 @@
+﻿@model LoginInMVC4WithEF.Models.ClsProduct
+
+<td class="bgtoplogo" align="right" style="padding-right: 5px">
+    <label id="TopNav_lblStaffInfo" class="t2" style="padding-left: 67%;">
+        <a href="/default.aspx" class="t2">
+            <img src="/images/icon_home.png" style="vertical-align: middle;padding-right: 5px;" border="0">Home
+        </a>&nbsp;|
+        <a href="" class="t2" target="_blank">
+            <img src="/images/faq.png" style="vertical-align: middle;padding-right: 5px;" border="0">Help?
+        </a>&nbsp;|&nbsp;@Html.Encode(User.Identity.Name)&nbsp;|&nbsp;
+        @Html.ActionLink("Logout", "Logout", "User")
+    </label>
+</td>
+<td>
+    <div class="container" style="width: 100%">
+        <div class="row divLogo">
+            <div class="col-xs-10">
+                <img src="~/images/logo.png" />
+            </div>
+
+        </div>
+        <div class="row">
+        </div>
+        <div class="navbar navbar-default">
+            <div class="navbar-header">
+
+            </div>
+            <div class="navbar-collapse collapse navbar-responsive-collapse">
+                <div class="navbar-center">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</td>
+<script type="text/javascript">
+    function onPickfunction() {
+        window.open("/ProductLoad/Create/0", null,
+        "height=500,width=900,status=yes,toolbar=no,menubar=no,location=no");
+    }
+    function OnSubmit() {
+        debugger;
+        if ($("#txtProductId").val().trim() == '') {
+            bootbox.alert("Enter Product", function () {
+                $("#txtProductId").focus();
+            });
+            return false;
+        }
+        else if ($("#txtModelPlace").val().trim() == '') {
+            bootbox.alert("Enter ModelPlace", function () {
+                $("#txtModelPlace").focus();
+            });
+            return false;
+        }
+        else if ($("#txtRate").val().trim() == '') {
+            bootbox.alert("Enter Rate", function () {
+                $("#txtRate").focus();
+            });
+            return false;
+        }
+        $("#tblLoad").show("fast");
+    }
+</script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <script type="text/javascript" src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/scripts/bootbox.min.js"></script>
+    <link href="~/content/css/case.css" rel="stylesheet" />
+    <link href="~/content/css/common.css" rel="stylesheet" />
+    <link href="~/content/css/195.css" rel="stylesheet" />
+    <link href="~/content/css/itw.css" rel="stylesheet" />
+    
+
+    @*<link href="~/content/css/login.css" rel="stylesheet" />*@
+
+
+</head>
+
+<div class="container" style="width: 100%; padding-top: 15px;">
+    <div id="dvMain" class="row">
+
+        <div class="col-xs-12 col-sm-2 sidebar-offcanvas" id="sidebar" role="navigation">
+            <div>
+
+                <div style="padding-bottom: 10px;">
+                    <a class="lftlink" href="/ProductPurchase/Index/0">» List</a>
+                </div>
+            </div>
+        </div>
+        <div class="t4b">
+            <img alt="View" class="hand" src="/images/faq.png" style="padding-left: 5px;
+                                                        vertical-align: middle;" id="imgView" onclick="onPickfunction();" />
+
+            Product Purchase:
+            <span class="t4orangeb">Add</span>
+        </div>
+        <div class="col-xs-12 col-sm-8">
+            <div class="col-xs-15 col-sm-15" style="height: 20px;">
+
+                <div class="col-xs-15 col-sm-15 pick-hdr-wrap panel-header" style="height: 20px;">
+
+                    <span id="spAttorney" class="panel-title" style="padding-left: 10px; cursor: default;">Description: </span>
+                </div>
+
+                @using (Html.BeginForm("Create", "ProductPurchase", FormMethod.Post, new { @class = "form-horizontal panel-body", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "")
+                    @Html.HiddenFor(m => m.Id)
+                    <div class="form-group">
+                        
+                            <div class="row" style="padding-top: 3px;">
+                                <div class="form-group panel-body">
+                                    <div class="row" style="padding-top: 10px;">
+                                        <label class="control-label col-sm-2" for="email">Product:<font class="t1br"></font>&nbsp;&nbsp;</label>
+                                        <div class="col-sm-5">
+                                            @Html.DropDownListFor(m => m.ProductId, new SelectList(Model.lstProduct, "ProductId", "Description"), "--Select--", new { @class = "form-control", id = "txtProductId" })
+
+                                        </div>
+                                        <img alt="View" class="hand" src="/images/faq.png" style="padding-left: 5px;
+                                                        vertical-align: middle;" id="imgView" onclick="onPickfunction();" />
+                                    </div>
+                                </div>
+                                <label class="control-label col-sm-2 " for="email">Model:<font class="t1br">*</font>&nbsp;&nbsp;</label>
+                                <div class="col-sm-5">
+                                    @Html.TextBoxFor(m => m.ModelPlace, new { @class = "form-control", id = "txtModelPlace" })
+                                    @Html.ValidationMessageFor(m => m.ModelPlace)
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row" style="padding-top: 3px;">
+                                <label class="control-label col-sm-2" for="email">Rate:<font class="t1br">*</font>&nbsp;&nbsp;</label>
+                                <div class="col-sm-5">
+                                    @Html.TextBoxFor(m => m.Rate, new { @class = "form-control", id = "txtRate" })
+                                    @Html.ValidationMessageFor(m => m.Rate)
+                                </div>
+                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" id="btnAdd" class="" value="Add" onclick="return OnSubmit();" style="margin-right:10px;width:9%" />
+                            
+                            <input id="btnCancel" type="button" class="" onclick="location.href='@Url.Action("Index", "ProductPurchase")'" value="Cancel" />
+                        </div>
+                    </div>
+                    
+                }
+                <div class="form-group panel-body" id="tblLoad" style="display:none">
+                    <table id="tblProduct">
+                        <thead>
+                            <tr>
+                                <td class="t2bcell sPadding" style="width: 20%;padding-right:20px">
+                                    Product
+                                </td>
+                                <td class="t2bcell sPadding" style="width: 20%;padding-right:20px">
+                                    ModelPlace
+                                </td>
+                                <td class="t2bcell sPadding" style="width: 20%;padding-right:20px">
+                                    Rate
+                                </td>
+                                <td class="t2bcell sPadding" style="width: 20%;padding-right:20px;text-align:center">
+                                    Action
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+                @*<input type="button" id="btnSave" value="Submit" />*@
+                <input type="button" id="btnSave"  class="" value="Submit" style="margin-right:10px;width:9%" />
+                    <script type="text/javascript">
+                        $("body").on("click", "#btnAdd", function () {
+                            // Reference the Name and Country TextBoxes.
+                            //var txtName = $("#txtName");
+                            var txtModelPlace = $("#txtModelPlace");
+                            var txtRate = $("#txtRate");
+                            var txtProductId = $("#txtProductId");
+
+                            //Get the reference of the Table's TBODY element.
+                            var tBody = $("#tblProduct > TBODY")[0];
+
+                            //Add Row.
+                            var row = tBody.insertRow(-1);
+
+                            var cell = $(row.insertCell(-1));
+                            cell.html(txtProductId.val());
+
+                            cell = $(row.insertCell(-1));
+                            cell.html(txtModelPlace.val());
+
+                            cell = $(row.insertCell(-1));
+                            cell.html(txtRate.val());
+
+                            //Add Button cell.
+                            cell = $(row.insertCell(-1));
+                            var btnRemove = $("<input />");
+                            btnRemove.attr("type", "button");
+                            btnRemove.attr("onclick", "Remove(this);");
+                            btnRemove.val("Remove");
+                            cell.append(btnRemove);
+
+                            //Clear the TextBoxes.
+                            //txtName.val("");
+                            txtProductId.val("");
+                            txtModelPlace.val("");
+                            txtRate.val("");
+                        });
+
+                        function Remove(button) {
+                            debugger;
+                            //Determine the reference of the Row using the Button.
+                            var row = $(button).closest("TR");
+                            var name = $("TD", row).eq(0).html();
+                            //if (confirm("Do you want to delete " )) {
+                            //Get the reference of the Table.
+                            var table = $("#tblProduct")[0];
+
+                            //Delete the Table row using it's Index.
+                            table.deleteRow(row[0].rowIndex);
+                            //}
+                        };
+
+                        $("body").on("click", "#btnSave", function () {
+                            debugger;
+                            //Loop through the Table rows and build a JSON array.
+                            var Products = new Array();
+                            $("#tblProduct TBODY TR").each(function () {
+                                var row = $(this);
+                                var Product = {};
+                                Product.ProductId = row.find("TD").eq(0).html();
+                                Product.ModelPlace = row.find("TD").eq(1).html();
+                                Product.Rate = row.find("TD").eq(2).html();
+                                Products.push(Product);
+                            });
+                            console.log(Products);
+                            //Send the JSON array to Controller using AJAX.
+                            $.ajax({
+                                type: "POST",
+                                url: "/ProductPurchase/InsertProducts",
+                                data: JSON.stringify(Products),
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (r) {
+                                    alert(r + " record(s) inserted.");
+                                    window.location.href = '/ProductPurchase/Index'
+                                }
+                            });
+                        });
+                    </script>
+                    @section Scripts {
+                        @Scripts.Render("~/bundles/jqueryval")
+                    }
